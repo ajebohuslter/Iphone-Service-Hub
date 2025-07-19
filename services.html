@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>iPhone Services</title>
+  <title>iPhone & Apple Device Services</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
   <style>
     :root {
       --accent: #0071e3;
       --bg: #f7f9fc;
       --text: #333;
       --card-bg: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
@@ -28,10 +31,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     header h1 {
       color: var(--accent);
+      font-size: 1.4rem;
     }
 
     .services {
@@ -55,26 +60,26 @@
     .service-card:hover {
       transform: translateY(-5px);
     }
-      .back-home-btn {
-    display: inline-block;
-    margin: 2em auto;
-    padding: 0.6em 1.4em;
-    background-color: #ffffff;
-    color: #0071e3;
-    font-weight: 500;
-    text-decoration: none;
-    border: 2px solid #0071e3;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
 
-  .back-home-btn:hover {
-    background-color: #0071e3;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
+    .back-home-btn {
+      display: inline-block;
+      margin: 2em auto;
+      padding: 0.6em 1.4em;
+      background-color: #ffffff;
+      color: #0071e3;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid #0071e3;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .back-home-btn:hover {
+      background-color: #0071e3;
+      color: white;
+    }
 
     .service-card h3 {
       color: var(--accent);
@@ -100,12 +105,13 @@
       align-items: center;
       justify-content: center;
       z-index: 999;
+      padding: 1em;
     }
 
     .modal-content {
       background: #fff;
       padding: 2em;
-      width: 90%;
+      width: 100%;
       max-width: 500px;
       border-radius: 10px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.3);
@@ -182,7 +188,7 @@
   <a href="index.html" class="back-home-btn">← Back to Home</a>
 
 <header>
-  <h1>iPhone Service Hub</h1>
+  <h1>iPhone & Apple Device Services</h1>
 </header>
 
 <section class="services">
@@ -233,6 +239,18 @@
     <p>Remove inactive Apple IDs from devices with verification.</p>
     <span class="price-tag">$110</span>
   </div>
+
+  <div class="service-card" onclick="openForm('MacBook iCloud Support', 95)">
+    <h3>MacBook iCloud Support</h3>
+    <p>iCloud account recovery and bypass services for MacBooks.</p>
+    <span class="price-tag">$95</span>
+  </div>
+
+  <div class="service-card" onclick="openForm('Mac Unlock Solutions', 130)">
+    <h3>Mac Unlock Solutions</h3>
+    <p>Remove lock screen passwords or firmware lock on Apple Macs.</p>
+    <span class="price-tag">$130</span>
+  </div>
 </section>
 
 <!-- Modal Form -->
@@ -240,27 +258,22 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeForm()">&times;</span>
     <h3>Request: <span id="serviceNameDisplay"></span></h3>
-
     <p class="info-box">
       Please fill out this form. You will need to <strong>download it</strong> and <strong>send it to us via WhatsApp or Email</strong> to complete your service request.
     </p>
-
     <label>Full Name</label>
     <input type="text" id="fullName" required>
     <label>Email</label>
     <input type="email" id="email" required>
-    <label>IMEI Number</label>
+    <label>IMEI or Serial Number</label>
     <input type="text" id="imei" required>
-
     <div class="modal-actions">
       <button class="btn-download" onclick="downloadForm()">Download</button>
     </div>
-
     <div class="modal-actions" id="ctaButtons" style="display:none;">
       <a class="btn-wa" href="#" id="waLink" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
       <a class="btn-email" href="#" id="emailLink"><i class="fas fa-envelope"></i> Email</a>
     </div>
-
     <small style="display:block; margin-top:1em; color:#777;">
       Once downloaded, send your request form to our support team via the button above.
     </small>
@@ -268,7 +281,7 @@
 </div>
 
 <footer>
-  &copy; 2025 iPhone Service Hub. All rights reserved. Not affiliated with Apple Inc.
+  &copy; 2025 iPhone Service Hub. Supporting iPhone, iPad & Mac. All rights reserved.
 </footer>
 
 <script>
@@ -280,7 +293,7 @@
     selectedPrice = price;
     document.getElementById('serviceNameDisplay').innerText = service;
     document.getElementById('formModal').style.display = 'flex';
-    document.getElementById('ctaButtons').style.display = 'none'; // hide CTA buttons again
+    document.getElementById('ctaButtons').style.display = 'none';
     document.getElementById('fullName').value = '';
     document.getElementById('email').value = '';
     document.getElementById('imei').value = '';
@@ -300,25 +313,23 @@
       return;
     }
 
-    const content = `Service Request Form\n\nService: ${selectedService}\nPrice: $${selectedPrice}\nFull Name: ${name}\nEmail: ${email}\nIMEI: ${imei}`;
+    const content = `Service Request Form\n\nService: ${selectedService}\nPrice: $${selectedPrice}\nFull Name: ${name}\nEmail: ${email}\nIMEI/Serial: ${imei}`;
     const blob = new Blob([content], { type: "text/plain" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `${selectedService}_Request.txt`;
     a.click();
 
-    const message = `Hello, I need ${selectedService} service.\n\nName: ${name}\nEmail: ${email}\nIMEI: ${imei}`;
-    const waNumber = "1234567890"; // replace with your WhatsApp number
+    const message = `Hello, I need ${selectedService} service.\n\nName: ${name}\nEmail: ${email}\nIMEI/Serial: ${imei}`;
+    const waNumber = "1234567890";
     document.getElementById("waLink").href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
 
     const subject = `Request: ${selectedService}`;
     const mailtoBody = `Name: ${name}%0DEmail: ${email}%0DIMEI: ${imei}%0DService: ${selectedService}`;
     document.getElementById("emailLink").href = `mailto:support@iphonehub.com?subject=${subject}&body=${mailtoBody}`;
 
-    // Show buttons
     document.getElementById('ctaButtons').style.display = 'flex';
   }
 </script>
-
 </body>
 </html>
