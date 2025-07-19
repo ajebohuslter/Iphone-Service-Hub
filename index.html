@@ -6,7 +6,7 @@
   <title>iPhone Service Hub | iCloud & Unlock Solutions</title>
 
   <!-- Font Awesome CDN for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-yHNmwKzM0DZWxFZsOC+h5m2RGc+j+5A6YZ/ncoZLUz6gY3wXf1ZVwYduyxDYJj6zXj/6eK2B8MHN4c1jEY0T9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     :root {
@@ -60,6 +60,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     header h1 {
@@ -70,6 +71,7 @@
     nav ul {
       display: flex;
       gap: 1.5em;
+      flex-wrap: wrap;
     }
 
     nav ul li {
@@ -182,10 +184,55 @@
     .hidden {
       display: none;
     }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1em;
+        gap: 0.5em;
+      }
+
+      .hero h2 {
+        font-size: 2em;
+      }
+
+      .hero p {
+        font-size: 1em;
+        padding: 0 1em;
+      }
+
+      .hero .btn {
+        padding: 0.8em 1.2em;
+        font-size: 0.95em;
+      }
+
+      .services {
+        padding: 2em 1em;
+      }
+
+      .service-card {
+        padding: 1.5em;
+      }
+
+      footer {
+        font-size: 0.85em;
+        padding: 2em 1em;
+      }
+
+      footer div[style*="display: flex"] {
+        flex-direction: column;
+        gap: 2em;
+      }
+    }
   </style>
 </head>
 <body>
-
   <!-- Loader -->
   <div class="loader-wrapper" id="loader">
     <div class="cube"></div>
@@ -195,19 +242,13 @@
   <div class="main-content hidden">
     <header>
       <h1>iPhone Service Hub</h1>
-    <nav>
+      <nav>
         <ul>
-            <li>
-                <a href="services.html">Servies</a>
-            </li>
-            <li>
-               <a href="review.html">Reviews</a>    
-            </li>
-            <li>
-                <a href="track.html">Tracking</a>
-            </li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="review.html">Reviews</a></li>
+          <li><a href="track.html">Tracking</a></li>
         </ul>
-    </nav>
+      </nav>
     </header>
 
     <section class="hero">
@@ -216,7 +257,7 @@
       <a class="btn" href="services.html">Explore Services</a>
     </section>
 
-    <section class="services" id="services">
+    <section class="services">
       <h3>Our Services</h3>
       <div class="service-grid">
         <div class="service-card"><h4>iCloud Recovery</h4><p>Recover access to your iCloud account using secure and verified tools.</p></div>
@@ -230,41 +271,31 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer>
       <div style="max-width: 1200px; margin: auto;">
         <div style="display: flex; flex-wrap: wrap; gap: 2em; justify-content: space-between; align-items: flex-start;">
-
-          <!-- About -->
           <div style="flex: 1; min-width: 240px;">
             <h2>iPhone Service Hub</h2>
             <p>Reliable iCloud & iPhone unlock solutions since 2021. Trusted by clients worldwide for secure, fast services.</p>
             <p style="margin-top: 1em;">&copy; 2025 iPhone Service Hub. All rights reserved.</p>
           </div>
-
-          <!-- Sponsors -->
           <div style="flex: 1; min-width: 240px;">
             <h3>Supported & Trusted by</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 2em; font-size: 2em; color: #fff; align-items: center;">
-
               <a href="https://developer.apple.com/" target="_blank" style="text-decoration: none; color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <i class="fab fa-apple"></i>
-                <small style="font-size: 0.6em; margin-top: 0.3em;">Apple Dev</small>
+                <small>Apple Dev</small>
               </a>
-
               <a href="https://www.att.com/deviceunlock/" target="_blank" style="text-decoration: none; color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <i class="fas fa-signal"></i>
-                <small style="font-size: 0.6em; margin-top: 0.3em;">AT&T</small>
+                <small>AT&T</small>
               </a>
-
               <a href="https://www.gsma.com/" target="_blank" style="text-decoration: none; color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <i class="fas fa-globe"></i>
-                <small style="font-size: 0.6em; margin-top: 0.3em;">GSMA</small>
+                <small>GSMA</small>
               </a>
             </div>
           </div>
-
-          <!-- Contact -->
           <div style="flex: 1; min-width: 240px;">
             <h3>Contact & Support</h3>
             <p>Email: <a href="mailto:support@iphonehub.com">support@iphonehub.com</a></p>
@@ -272,9 +303,7 @@
             <p style="margin-top: 1em;">Mon–Sat: 9:00 AM – 6:00 PM (EST)</p>
           </div>
         </div>
-
         <hr style="margin: 2em 0; border: 0; border-top: 1px solid #333;" />
-
         <div style="text-align: center; font-size: 0.85em;">
           This website is not affiliated with Apple Inc. All trademarks are property of their respective owners. Services offered are 100% legal and based on proof of ownership.
         </div>
@@ -282,7 +311,6 @@
     </footer>
   </div>
 
-  <!-- Loader Script -->
   <script>
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
