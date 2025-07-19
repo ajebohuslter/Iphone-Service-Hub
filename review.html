@@ -47,26 +47,27 @@
       font-size: 1em;
       cursor: pointer;
     }
-      .back-home-btn {
-    display: inline-block;
-    margin: 2em auto;
-    padding: 0.6em 1.4em;
-    background-color: #ffffff;
-    color: #0071e3;
-    font-weight: 500;
-    text-decoration: none;
-    border: 2px solid #0071e3;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
 
-  .back-home-btn:hover {
-    background-color: #0071e3;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
+    .back-home-btn {
+      display: inline-block;
+      margin: 2em auto;
+      padding: 0.6em 1.4em;
+      background-color: #ffffff;
+      color: #0071e3;
+      font-weight: 500;
+      text-decoration: none;
+      border: 2px solid #0071e3;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .back-home-btn:hover {
+      background-color: #0071e3;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
 
     .error {
       color: red;
@@ -99,88 +100,104 @@
     .comment p {
       margin: 0.5em 0 0 0;
     }
+
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 1em;
+      }
+
+      form, .comments-section {
+        padding: 1em;
+      }
+    }
   </style>
 </head>
 <body>
-    <a href="index.html" class="back-home-btn">← Back to Home</a>
 
-  <h1>What Our Customers Say</h1>
+<a href="index.html" class="back-home-btn">← Back to Home</a>
 
-  <form onsubmit="submitComment(event)">
-    <input type="email" id="email" placeholder="Your Email" required />
-    <input type="text" id="trackingID" placeholder="Tracking ID" required />
-    <textarea id="comment" placeholder="Write your review here..." rows="5" required></textarea>
-    <button type="submit">Submit Comment</button>
-    <div class="error" id="errorMsg"></div>
-  </form>
+<h1>What Our Customers Say</h1>
 
-  <div class="comments-section" id="commentsContainer"></div>
+<form onsubmit="submitComment(event)">
+  <input type="email" id="email" placeholder="Your Email" required />
+  <input type="text" id="trackingID" placeholder="Tracking ID" required />
+  <textarea id="comment" placeholder="Write your review here..." rows="5" required></textarea>
+  <button type="submit">Submit Comment</button>
+  <div class="error" id="errorMsg"></div>
+</form>
 
-  <!-- Load generated comments -->
-  <script src="comments.js"></script>
+<div class="comments-section" id="commentsContainer"></div>
 
-  <script>
-    const allowedTrackingID = "8637837";
+<!-- Load generated comments -->
+<script src="comments.js"></script>
 
-    function loadComments() {
-      const container = document.getElementById("commentsContainer");
-      container.innerHTML = "";
+<script>
+  const allowedTrackingID = "8637837";
 
-      // Load saved user comments
-      const localComments = JSON.parse(localStorage.getItem("userComments") || "[]");
+  // Function to hide email (e.g. jo****@gmail.com)
+  function maskEmail(email) {
+    const [user, domain] = email.split("@");
+    const masked = user.length > 2 ? user.substring(0, 2) + "****" : user + "****";
+    return masked + "@" + domain;
+  }
 
-      // Combine with imported comments from comments.js
-      const allComments = (typeof commentsData !== "undefined" ? commentsData : []).concat(localComments);
+  function loadComments() {
+    const container = document.getElementById("commentsContainer");
+    container.innerHTML = "";
 
-      allComments.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `
-          <strong>${c.email}</strong>
-          <small>Tracking ID: ${c.tracking}${c.date ? ' | Date: ' + c.date : ''}</small>
-          <p>${c.text}</p>
-        `;
-        container.appendChild(div);
-      });
+    const localComments = JSON.parse(localStorage.getItem("userComments") || "[]");
+    const allComments = (typeof commentsData !== "undefined" ? commentsData : []).concat(localComments);
+
+    allComments.forEach(c => {
+      const div = document.createElement("div");
+      div.className = "comment";
+      div.innerHTML = `
+        <strong>${maskEmail(c.email)}</strong>
+        ${c.date ? `<small>Date: ${c.date}</small>` : ""}
+        <p>${c.text}</p>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function submitComment(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const tracking = document.getElementById("trackingID").value.trim();
+    const text = document.getElementById("comment").value.trim();
+    const error = document.getElementById("errorMsg");
+
+    if (!email || !tracking || !text) {
+      error.textContent = "All fields are required.";
+      return;
     }
 
-    function submitComment(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const tracking = document.getElementById("trackingID").value.trim();
-      const text = document.getElementById("comment").value.trim();
-      const error = document.getElementById("errorMsg");
-
-      if (!email || !tracking || !text) {
-        error.textContent = "All fields are required.";
-        return;
-      }
-
-      if (tracking !== allowedTrackingID) {
-        error.textContent = "Invalid tracking ID.";
-        return;
-      }
-
-      const newComment = {
-        email,
-        tracking,
-        text
-      };
-
-      const comments = JSON.parse(localStorage.getItem("userComments") || "[]");
-      comments.push(newComment);
-      localStorage.setItem("userComments", JSON.stringify(comments));
-
-      document.getElementById("email").value = "";
-      document.getElementById("trackingID").value = "";
-      document.getElementById("comment").value = "";
-      error.textContent = "";
-
-      loadComments();
+    if (tracking !== allowedTrackingID) {
+      error.textContent = "Invalid tracking ID.";
+      return;
     }
 
-    window.onload = loadComments;
-  </script>
+    const newComment = {
+      email,
+      tracking,
+      text,
+      date: new Date().toLocaleDateString()
+    };
+
+    const comments = JSON.parse(localStorage.getItem("userComments") || "[]");
+    comments.push(newComment);
+    localStorage.setItem("userComments", JSON.stringify(comments));
+
+    document.getElementById("email").value = "";
+    document.getElementById("trackingID").value = "";
+    document.getElementById("comment").value = "";
+    error.textContent = "";
+
+    loadComments();
+  }
+
+  window.onload = loadComments;
+</script>
 
 </body>
 </html>
